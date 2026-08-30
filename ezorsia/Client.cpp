@@ -517,8 +517,8 @@ void Client::UpdateResolution() {
 	//Memory::WriteInt(0x008D3056 + 1, m_nGameHeight - 57);
 	//Memory::WriteInt(0x008D311F + 1, m_nGameHeight - 57);
 	//Memory::WriteInt(0x008D31E7 + 1, m_nGameHeight - 57);//bottom 4 large buttons
-	Memory::WriteInt(0x00849E39 + 1, m_nGameHeight - 177); //system menu pop up
-	Memory::WriteInt(0x0084A5B7 + 1, m_nGameHeight - 281); //shortcuts pop up	//0x84A5BD -  System Options "X" Position. if needed
+	Memory::WriteInt(0x00849E39 + 1, 423); //system menu pop up
+	Memory::WriteInt(0x0084A5B7 + 1, 319); //shortcuts pop up	//0x84A5BD -  System Options "X" Position. if needed
 
 	Memory::WriteInt(0x00522C73 + 1, m_nGameHeight - 92 - 10);// ??various requests like party, guild, friend, family, invites that pop up
 	Memory::WriteInt(0x00522E65 + 1, m_nGameHeight - 92 - 10); // ??various requests like party, guild, friend, family, invites that pop up
