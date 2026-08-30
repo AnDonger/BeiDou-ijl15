@@ -8,7 +8,6 @@ public:
 	static void UpdateLogin();
 	static void FixMouseWheel();
 	static void Chinese();
-	static void LongQuickSlot();
 	static void FixDateFormat();
 	static void FixItemType();
 	static void JumpCap();

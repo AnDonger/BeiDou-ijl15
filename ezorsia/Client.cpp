@@ -203,12 +203,12 @@ void Client::UpdateResolution() {
 	Memory::WriteInt(dwTempStatCoolTimeVPos + 2, (m_nGameHeight / 2) - 23);	//sub ebx,277 ; Skill icon cooltime y-pos
 	Memory::WriteInt(dwTempStatCoolTimeHPos + 3, (m_nGameWidth / 2) - 3);	//lea eax,[eax+esi+397] ; Skill icon cooltime x-pos
 
-	Memory::WriteInt(dwQuickSlotInitVPos + 1, m_nGameHeight + 1);//add eax,533
-	Memory::WriteInt(dwQuickSlotInitHPos + 1, 815); //push 647 //hd800
-	Memory::WriteInt(dwQuickSlotVPos + 2, m_nGameHeight + 1);//add esi,533
-	Memory::WriteInt(dwQuickSlotHPos + 1, 815); //push 647 //hd800
-	Memory::WriteInt(dwQuickSlotCWndVPos + 2, (600 - m_nGameHeight) / 2 - 427 - 20); //lea edi,[eax-427]
-	Memory::WriteInt(dwQuickSlotCWndHPos + 2, -815); //lea ebx,[eax-647]
+	Memory::WriteInt(dwQuickSlotInitVPos + 1, m_nGameHeight - 68 );//add eax,533
+	//Memory::WriteInt(dwQuickSlotInitHPos + 1, 798); //push 647 //hd800
+	Memory::WriteInt(dwQuickSlotVPos + 2, m_nGameHeight - 68);//add esi,533
+	//Memory::WriteInt(dwQuickSlotHPos + 1, 798); //push 647 //hd800
+	//Memory::WriteInt(dwQuickSlotCWndVPos + 2, (600 - m_nGameHeight) / 2 - 427 - 69); //lea edi,[eax-427]
+	//Memory::WriteInt(dwQuickSlotCWndHPos + 2, -798); //lea ebx,[eax-647]
 
 	//Memory::WriteInt(dwByteAvatarMegaHPos + 1, m_nGameWidth + 100); //push 800 ; CAvatarMegaphone::ByeAvatarMegaphone ; IWzVector2D::RelMove ##BAK
 	Memory::WriteInt(dwByteAvatarMegaHPos + 1, m_nGameWidth); //push 800 ; CAvatarMegaphone::ByeAvatarMegaphone ; IWzVector2D::RelMove
@@ -452,6 +452,8 @@ void Client::UpdateResolution() {
 	int msgAmntOffset, msgAmnt; msgAmnt = MsgAmount; msgAmntOffset = msgAmnt * 14;
 
 	Memory::WriteInt(0x0089B639 + 1, m_nGameHeight - 6 - msgAmntOffset - 80);//inventory/exp gain y axis //####hd100 //90
+	//Memory::WriteInt(0x0089B639 + 1, m_nGameHeight - 6 - msgAmntOffset);
+	//Memory::WriteInt(0x0089B639 + 1, m_nGameHeight - 6 - msgAmntOffset);//inventory/exp gain y axis //####hd100 //90
 	Memory::WriteInt(0x0089B6F7 + 1, m_nGameWidth - 405);//inventory/exp gain x axis //310 //####hd415 //405
 
 	Memory::WriteInt(0x0089AF33 + 1, 400);//length of pick up and exp gain message canvas //found with help from Davi
@@ -778,90 +780,6 @@ void Client::Chinese() {
 		Memory::WriteByte(0x0090142E + 1, 0x5E); // 60->5E 位置上移
 		Memory::WriteByte(0x00901400 + 1, 1); // 字体type改为1 对应12号大小
 	}
-}
-
-void Client::LongQuickSlot() {
-	// CUIStatusBar::OnCreate
-	Memory::WriteByte(0x008D155C + 1, 0xF0); // Draw rest of quickslot bar
-	Memory::WriteByte(0x008D155C + 2, 0x03);
-	Memory::WriteByte(0x008D182E + 1, 0xF0); // Draw rest of hotkeys
-	Memory::WriteByte(0x008D182E + 2, 0x03);
-	Memory::WriteByte(0x008D1AC0 + 1, 0xF0); // Draw rest of cooldowns, who tf knows why. TY Rulax
-	Memory::WriteByte(0x008D1AC0 + 2, 0x03);
-
-	//----CQuickslotKeyMappedMan::CQuickslotKeyMappedMan?????
-	Memory::WriteInt(0x0072B7CE + 1, (DWORD)&Array_aDefaultQKM_0);
-	Memory::WriteInt(0x0072B8EB + 1, (DWORD)&Array_aDefaultQKM_0);
-
-	//----CUIStatusBar::CQuickSlot::CompareValidateFuncKeyMappedInfo
-	Memory::WriteByte(0x008DD916, 0x1A); // increase 8 --> 26
-	Memory::WriteByte(0x008DD8AD, 0x1A); // increase 8 --> 26
-	Memory::WriteByte(0x008DD8FD, 0xBB);
-	Memory::WriteInt(0x008DD8FD + 1, (DWORD)&Array_Expanded);
-	Memory::WriteByte(0x008DD8FD + 5, 0x90); //Errant byte
-	Memory::WriteByte(0x008DD898, 0xB8);
-	Memory::WriteInt(0x008DD898 + 1, (DWORD)&Array_Expanded);
-	Memory::WriteByte(0x008DD898 + 5, 0x90); //Errant Byte
-
-	//----CUIStatusBar::CQuickSlot::Draw
-	Memory::WriteByte(0x008DE75E + 3, 0x6C);
-	Memory::WriteByte(0x008DDF99, 0xB8);
-	Memory::WriteInt(0x008DDF99 + 1, (DWORD)&Array_Expanded);
-	Memory::FillBytes(0x008DDF99 + 5, 0x90, 3); // Nopping errant operations
-
-	//----CUIStatusBar::OnMouseMove
-	Memory::WriteByte(0x008D7F1E + 1, 0x34);
-	Memory::WriteByte(0x008D7F1E + 2, 0x85);
-	Memory::WriteInt(0x008D7F1E + 3, (DWORD)&Array_Expanded);
-
-	//----CUIStatusBar::CQuickSlot::GetPosByIndex
-	Memory::WriteInt(0x008DE94D + 2, (DWORD)&Array_ptShortKeyPos);
-	Memory::WriteInt(0x008DE955 + 2, (DWORD)&Array_ptShortKeyPos + 4);
-	Memory::WriteByte(0x008DE941 + 2, 0x1A); //change cmp 8 --> cmp 26
-
-	//CUIStatusBar::GetShortCutIndexByPos
-	Memory::WriteInt(0x008DE8F4 + 1, (DWORD)&Array_ptShortKeyPos_Fixed_Tooltips + 4);
-	Memory::WriteByte(0x008DE926 + 1, 0x3E);
-
-	//CUIStatusBar::CQuickSlot::DrawSkillCooltime
-	Memory::WriteByte(0x008E099F + 3, 0x1A);
-	Memory::WriteByte(0x008E069D, 0xBE);
-	Memory::WriteInt(0x008E069D + 1, (DWORD)&cooldown_Array); //Pass enlarged FFFFF array
-	Memory::WriteByte(0x008E069D + 5, 0x90); //Errant byte
-	Memory::WriteByte(0x008E06A3, 0xBF);
-	Memory::WriteInt(0x008E06A3 + 1, (DWORD)&Array_Expanded + 1);
-	Memory::WriteByte(0x008E06A3 + 5, 0x90);
-
-	//----CDraggableMenu::OnDropped
-	Memory::WriteByte(0x004F928A + 2, 0x1A); //change cmp 8 --> cmp 26
-	//----CDraggableMenu::MapFuncKey
-	Memory::WriteByte(0x004F93F9 + 2, 0x1A); //change cmp 8 --> cmp 26
-	//----CUIKeyConfig::OnDestroy
-	Memory::WriteByte(0x00833797 + 2, 0x6C); // Updates the offset to 108 (triple) (old->24h)
-	Memory::WriteByte(0x00833841 + 2, 0x6C); // Updates the offset to 108 (triple) (old->24h)
-	Memory::WriteByte(0x00833791 + 1, 0x68); // push 68h (triple)
-	Memory::WriteByte(0x0083383B + 1, 0x68); // push 68h (triple)
-	//----CUIKeyConfig::~CUIKeyConfig
-	Memory::WriteByte(0x0083287F + 2, 0x6C); // triple the base value at this hex (old->24h)
-	Memory::WriteByte(0x00832882 + 1, 0x68); // push 68h (triple)
-	//----CQuickslotKeyMappedMan::SaveQuickslotKeyMap
-	Memory::WriteByte(0x0072B8C0 + 2, 0x6C); // triple the base value at this hex (old->24h)
-	Memory::WriteByte(0x0072B8A0 + 1, 0x68); // push 68h, (triple) //CQuickslotKeyMappedMan::SaveQuickslotKeyMap
-	Memory::WriteByte(0x0072B8BD + 1, 0x68); // push 68h, (triple) //CQuickslotKeyMappedMan::SaveQuickslotKeyMap
-	//----CQuickslotKeyMappedMan::OnInit
-	Memory::WriteByte(0x0072B861 + 1, 0x68); // push 68h (triple) (these ones might have to be just 60)
-	Memory::WriteByte(0x0072B867 + 2, 0x6C); // triple the base value at this hex (old->24h)
-	//----CUIKeyConfig::CNoticeDlg::OnChildNotify????
-	Memory::WriteByte(0x00836A1E + 1, 0x68); // push 68h (triple)
-	Memory::WriteByte(0x00836A21 + 2, 0x6C); // triple the base value at this hex (old->24h)
-
-
-	// CODECAVES CLIENT EDITS ---- 
-	Memory::CodeCave(CompareValidateFuncKeyMappedInfo_cave, 0x8DD8B8, 5);
-	Memory::CodeCave(sub_9FA0CB_cave, 0x9FA0DB, 5);
-	Memory::CodeCave(sDefaultQuickslotKeyMap_cave, 0x72B7BC, 5);
-	Memory::CodeCave(DefaultQuickslotKeyMap_cave, 0x72B8E6, 5);
-	Memory::CodeCave(Restore_Array_Expanded, 0x008CFDFD, 6); //restores the skill array to 0s
 }
 
 void Client::FixDateFormat() {
