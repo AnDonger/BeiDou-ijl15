@@ -176,11 +176,8 @@ void Client::UpdateGameStartup() {
 }
 
 void Client::UpdateResolution() {
-	nStatusBarY = Client::m_nGameHeight - 578;
-
-	Memory::CodeCave(AdjustStatusBar, dwStatusBarVPos, 5);
-	Memory::CodeCave(AdjustStatusBarBG, dwStatusBarBackgroundVPos, 5);
-	Memory::CodeCave(AdjustStatusBarInput, dwStatusBarInputVPos, 9);
+	// StatusBar is positioned by HookStatusBarPosition, ported from kaentake.
+	nStatusBarY = 0;
 
 	Memory::WriteInt(dwApplicationHeight + 1, m_nGameHeight);//push 600
 	Memory::WriteInt(dwApplicationWidth + 1, m_nGameWidth);	//push 800 ; CWvsApp::InitializeGr2D
@@ -203,9 +200,9 @@ void Client::UpdateResolution() {
 	Memory::WriteInt(dwTempStatCoolTimeVPos + 2, (m_nGameHeight / 2) - 23);	//sub ebx,277 ; Skill icon cooltime y-pos
 	Memory::WriteInt(dwTempStatCoolTimeHPos + 3, (m_nGameWidth / 2) - 3);	//lea eax,[eax+esi+397] ; Skill icon cooltime x-pos
 
-	Memory::WriteInt(dwQuickSlotInitVPos + 1, m_nGameHeight - 68 );//add eax,533
+	//Memory::WriteInt(dwQuickSlotInitVPos + 1, m_nGameHeight - 68 );//add eax,533
 	//Memory::WriteInt(dwQuickSlotInitHPos + 1, 798); //push 647 //hd800
-	Memory::WriteInt(dwQuickSlotVPos + 2, m_nGameHeight - 68);//add esi,533
+	//Memory::WriteInt(dwQuickSlotVPos + 2, m_nGameHeight - 68);//add esi,533
 	//Memory::WriteInt(dwQuickSlotHPos + 1, 798); //push 647 //hd800
 	//Memory::WriteInt(dwQuickSlotCWndVPos + 2, (600 - m_nGameHeight) / 2 - 427 - 69); //lea edi,[eax-427]
 	//Memory::WriteInt(dwQuickSlotCWndHPos + 2, -798); //lea ebx,[eax-647]
@@ -301,8 +298,8 @@ void Client::UpdateResolution() {
 	Memory::WriteInt(0x0059A09C + 2, (unsigned int)floor(m_nGameWidth / 2));	//mov [esi],400	; CInputSystem::LoadCursorState
 	Memory::WriteInt(0x0080546C + 1, m_nGameHeight);//mov edi,600
 	Memory::WriteInt(0x00805459 + 1, m_nGameWidth);	//mov edx,800 ; CUIEventAlarm::CreateEventAlarm
-	Memory::WriteInt(0x008CFD4B + 1, m_nGameHeight - 22);	//push 578
-	Memory::WriteInt(0x008CFD50 + 1, m_nGameWidth);	//push 800
+	//Memory::WriteInt(0x008CFD4B + 1, m_nGameHeight - 22);	//push 578
+	//Memory::WriteInt(0x008CFD50 + 1, m_nGameWidth);	//push 800
 	Memory::WriteInt(0x0053836D + 1, (unsigned int)floor(-m_nGameHeight / 2));//push -300
 	Memory::WriteInt(0x00538373 + 1, (unsigned int)floor(-m_nGameWidth / 2));	//push -400	; RelMove?
 	Memory::WriteInt(0x0055BB2F + 1, (unsigned int)floor(-m_nGameHeight / 2));//push -300
@@ -345,8 +342,8 @@ void Client::UpdateResolution() {
 	Memory::WriteInt(0x004372B6 + 1, (unsigned int)floor(-m_nGameWidth / 2));	//push -400 ; RelMove?
 	Memory::WriteInt(0x006CE3AB + 1, m_nGameWidth);	//push 800
 	Memory::WriteInt(0x007E1CB7 + 1, m_nGameWidth);	//push 800
-	Memory::WriteInt(0x008D82F5 + 1, m_nGameHeight - 22);	//push 578
-	Memory::WriteInt(0x008D82FA + 1, m_nGameWidth);	//push 800 ; CreateWnd?
+	//Memory::WriteInt(0x008D82F5 + 1, m_nGameHeight - 22);	//push 578
+	//Memory::WriteInt(0x008D82FA + 1, m_nGameWidth);	//push 800 ; CreateWnd?
 	Memory::WriteInt(0x00935870 + 1, (unsigned int)floor(m_nGameHeight / 2));	//push 300
 	Memory::WriteInt(0x0093586B + 1, m_nGameWidth);	// push 800 ; RelMove? (Skills)
 	Memory::WriteInt(0x009DFD5C + 1, m_nGameWidth);	//mov ecx,800
@@ -360,19 +357,19 @@ void Client::UpdateResolution() {
 	Memory::WriteInt(0x006421B3 + 1, m_nGameHeight);//push 600 ; CSoundMan::PlayBGM
 
 	Memory::WriteInt(0x0059EB49 + 1, m_nGameHeight);//push 600 ; CSoundMan::PlayBGM
-	Memory::WriteInt(0x008D247B + 1, m_nGameHeight - 33);	//push 567 ; IWzVector2D::RelMove
-	Memory::WriteInt(0x008DEB93 + 1, m_nGameHeight - 20);	//push 580
-	Memory::WriteInt(0x008DEE2F + 1, m_nGameHeight - 20);	//push 580
-	Memory::WriteInt(0x008D2765 + 1, m_nGameHeight - 19);	//push 581
-	Memory::WriteInt(0x008DA11C + 1, m_nGameHeight - 19);	//push 581 临时经验条
-	Memory::WriteInt(0x008D29B4 + 1, m_nGameHeight - 19);	//push 581
-	Memory::WriteInt(0x008D8BFE + 1, m_nGameHeight - 19);	//push 581
-	Memory::WriteInt(0x008D937E + 1, m_nGameHeight - 19);	//push 581 //008D9373  move mana bar outline? //ty rynyan
-	Memory::WriteInt(0x008D9AC9 + 1, m_nGameHeight - 19);	//push  
-	Memory::WriteInt(0x008D1D50 + 1, m_nGameHeight - 22);	//push 578
-	Memory::WriteInt(0x008D1D55 + 1, m_nGameWidth);	//push 800
-	Memory::WriteInt(0x008D1FF4 + 1, m_nGameHeight - 22);	//push 578
-	Memory::WriteInt(0x008D1FF9 + 1, m_nGameWidth);	//push 800 ; CUIStatusBar
+	//Memory::WriteInt(0x008D247B + 1, m_nGameHeight - 33);	//push 567 ; IWzVector2D::RelMove
+	//Memory::WriteInt(0x008DEB93 + 1, m_nGameHeight - 20);	//push 580
+	//Memory::WriteInt(0x008DEE2F + 1, m_nGameHeight - 20);	//push 580
+	//Memory::WriteInt(0x008D2765 + 1, m_nGameHeight - 19);	//push 581
+	//Memory::WriteInt(0x008DA11C + 1, m_nGameHeight - 19);	//push 581 临时经验条
+	//Memory::WriteInt(0x008D29B4 + 1, m_nGameHeight - 19);	//push 581
+	//Memory::WriteInt(0x008D8BFE + 1, m_nGameHeight - 19);	//push 581
+	//Memory::WriteInt(0x008D937E + 1, m_nGameHeight - 19);	//push 581 //008D9373  move mana bar outline? //ty rynyan
+	//Memory::WriteInt(0x008D9AC9 + 1, m_nGameHeight - 19);	//push
+	//Memory::WriteInt(0x008D1D50 + 1, m_nGameHeight - 22);	//push 578
+	//Memory::WriteInt(0x008D1D55 + 1, m_nGameWidth);	//push 800
+	//Memory::WriteInt(0x008D1FF4 + 1, m_nGameHeight - 22);	//push 578
+	//Memory::WriteInt(0x008D1FF9 + 1, m_nGameWidth);	//push 800 ; CUIStatusBar
 	Memory::WriteInt(0x0062F5DF + 1, m_nGameHeight);//push 600
 	Memory::WriteInt(0x0062F5E4 + 1, m_nGameWidth);	//push 800 ; (UI/Logo/Nexon)
 	Memory::WriteInt(0x004EDB89 + 1, m_nGameWidth);	//mov ecx,800
@@ -422,8 +419,8 @@ void Client::UpdateResolution() {
 	Memory::WriteInt(0x00621226 + 1, (m_nGameWidth / 2) - 216);//??possibly related to logo
 	Memory::WriteByte(0x0062121E + 1, 0x01);//??possibly related to logo
 
-	Memory::WriteInt(0x008C069F + 1, (m_nGameHeight / 2) - 14);//??related to status bar
-	Memory::WriteInt(0x008C06A4 + 1, (m_nGameWidth / 2) - 158);//???related to status bar
+	//Memory::WriteInt(0x008C069F + 1, (m_nGameHeight / 2) - 14);//??related to status bar
+	//Memory::WriteInt(0x008C06A4 + 1, (m_nGameWidth / 2) - 158);//???related to status bar
 
 	Memory::WriteInt(0x00A24D0B + 1, (m_nGameWidth / 2) - 129);//??
 
