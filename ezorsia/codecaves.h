@@ -1,5 +1,7 @@
 #pragma once
 int nStatusBarY = 0;
+int nStatusBarBackgroundX = -6;
+int nStatusBarBackgroundY = 22;
 __declspec(naked) void AdjustStatusBar() {
 	__asm {
 		push nStatusBarY
@@ -11,9 +13,9 @@ __declspec(naked) void AdjustStatusBar() {
 
 __declspec(naked) void AdjustStatusBarBG() {
 	__asm {
-		push nStatusBarY
+		push nStatusBarBackgroundY
 		movsd
-		push 0
+		push nStatusBarBackgroundX
 		jmp dword ptr[dwStatusBarBackgroundPosRetn]
 	}
 }

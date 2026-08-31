@@ -178,6 +178,7 @@ void Client::UpdateGameStartup() {
 void Client::UpdateResolution() {
 	// StatusBar is positioned by HookStatusBarPosition, ported from kaentake.
 	nStatusBarY = 0;
+	Memory::CodeCave(AdjustStatusBarBG, dwStatusBarBackgroundVPos, 5);
 
 	Memory::WriteInt(dwApplicationHeight + 1, m_nGameHeight);//push 600
 	Memory::WriteInt(dwApplicationWidth + 1, m_nGameWidth);	//push 800 ; CWvsApp::InitializeGr2D
