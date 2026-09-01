@@ -248,7 +248,6 @@ IWzVector2D** __fastcall CWndManGetOrgWindow_Hook(void* pThis, void* edx, IWzVec
 	IWzVector2D* pOrgWindow = nullptr;
 
 	switch (ret) {
-	case 0x0089AF82:
 	case 0x008DEB75:
 	case 0x008DEE11:
 		pOrgWindow = GetOrgWindowEx(pThis, kStatusBarOrigin);

@@ -430,7 +430,7 @@ void Client::UpdateResolution() {
 	Memory::WriteInt(0x00BE273C, 128);//??
 	Memory::WriteByte(0x00A5FC2B, 0x05);//??
 	//Memory::WriteByte(0x008D1790 + 2, 0x01); //related to quickslots area presence		 originally 1U but changed because unsigned int crashes it after char select
-	Memory::WriteByte(0x0089B636 + 2, 0x01); //related to exp gain/item pick up msg, seems to affect msg height ! originally 1U but changed because unsigned int crashes it after char select
+	Memory::WriteByte(0x0089B636 + 2, 0x00); //disable QuickSlot-dependent offset for exp gain/item pick up msg
 	Memory::WriteByte(0x00592A06 + 1, 0x01);//???likely related to mouse pos
 
 	Memory::WriteInt(0x00744EB4 + 1, m_nGameWidth);//??related to in-game taking screenshot functionality
@@ -472,8 +472,9 @@ void Client::UpdateResolution() {
 
 	Memory::WriteInt(0x007C2531 + 1, m_nGameHeight - 80);//??
 
-	//Memory::WriteInt(0x0089B796 + 2, m_nGameHeight - 18);//???related to exp gain/item pick up msg
-	//Memory::WriteInt(0x0089BA03 + 1, m_nGameHeight - 96); //??related to exp gain/item pick up msg
+	Memory::WriteByte(0x0089B793 + 2, 0x00); //disable QuickSlot-dependent offset for exp gain/item pick up msg
+	Memory::WriteInt(0x0089B796 + 1, m_nGameHeight - 6 - msgAmntOffset - 80);//inventory/exp gain y axis
+	Memory::WriteInt(0x0089BA03 + 1, m_nGameWidth - 405); //inventory/exp gain x axis
 	//Memory::WriteInt(0x008D3F73 + 1, m_nGameHeight - 93);//bottom frame, white area
 	//Memory::WriteInt(0x008D3FE5 + 1, m_nGameHeight - 93);//bottom frame, grey area
 	//Memory::WriteInt(0x008D8353 + 1, m_nGameHeight - 46); //bottom frame, character level
